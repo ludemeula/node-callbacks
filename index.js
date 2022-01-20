@@ -1,4 +1,8 @@
 // importamos um módulo interno do node.js
+const util = require('util')
+
+const obterEnderecoAsync = util.promisify(obterEndereco)
+
 function obterUsuario() {
 
   // sucesso - resolve
@@ -43,6 +47,16 @@ usuarioPromise
       return {
         usuario: {id: usuario.id, nome: usuario.nome},
         telefone: result
+      }
+    })
+  })
+  .then(function(resultado) {
+    const endereco = obterEnderecoAsync(resultado.usuario.id)
+    return endereco.then(function resolverEndereco(result) {
+      return {
+        usuario: resultado.usuario,
+        telefone: resultado.telefone,
+        endereco: result
       }
     })
   })
