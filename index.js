@@ -38,49 +38,56 @@ function obterEndereco(idUsuario, callback) {
   }, 2000)
 }
 
-const usuarioPromise = obterUsuario()
-// manipular o sucesso .then
-// manipular erros .catch
-usuarioPromise
-  .then(function(usuario) {
-    return obterTelefone(usuario.id).then(function resolverTelefone(result) {
-      return {
-        usuario: {id: usuario.id, nome: usuario.nome},
-        telefone: result
-      }
-    })
-  })
-  .then(function(resultado) {
-    const endereco = obterEnderecoAsync(resultado.usuario.id)
-    return endereco.then(function resolverEndereco(result) {
-      return {
-        usuario: resultado.usuario,
-        telefone: resultado.telefone,
-        endereco: result
-      }
-    })
-  })
-  .then(function(resultado) {
-    console.log('resultado', resultado)
-  }).catch(function(error) {
-    console.log('Deu erro', error)
-  })
+// 1o passo - adicionar a palavra async -> automaticamente ela retornará uma Promise
+main()
+async function main() {
+
+  try {
+    const usuario = await obterUsuario()
+    const telefone = await obterTelefone(usuario.id)
+    const endereco = await obterEnderecoAsync(usuario.id)
+
+    console.log(`
+      Nome: ${usuario.nome}
+      Telefone: ${telefone.numero}
+      Endereço: ${endereco.rua}
+    `)
+  } catch (error) {
+    console.log('deu erro aqui', error)
+  }
+}
 
 
-// obterUsuario(function resolverUsuario(error, usuario) {
-//   if (error) {
-//     console.log('Erro no usuario', error)
-//     return
-//   }
-//   obterTelefone(usuario.id, function resolverTelefone(error2, telefone) {
-//     if (error2) {
-//       console.log('Erro no telefone', error2)
-//       return
-//     }
 
-//     console.log(`
-//       Nome: ${usuario.nome}
-//       Telefone: ${telefone.numero}
-//     `)
+
+// const usuarioPromise = obterUsuario()
+// // manipular o sucesso .then
+// // manipular erros .catch
+// usuarioPromise
+//   .then(function(usuario) {
+//     return obterTelefone(usuario.id).then(function resolverTelefone(result) {
+//       return {
+//         usuario: {id: usuario.id, nome: usuario.nome},
+//         telefone: result
+//       }
+//     })
 //   })
-// })
+//   .then(function(resultado) {
+//     const endereco = obterEnderecoAsync(resultado.usuario.id)
+//     return endereco.then(function resolverEndereco(result) {
+//       return {
+//         usuario: resultado.usuario,
+//         telefone: resultado.telefone,
+//         endereco: result
+//       }
+//     })
+//   })
+//   .then(function(resultado) {
+//     console.log(`
+//       Nome: ${resultado.usuario.nome}
+//       Telefone: ${resultado.telefone.numero}
+//       Endereço: ${resultado.endereco.rua}
+//     `)
+//   }).catch(function(error) {
+//     console.log('Deu erro', error)
+//   })
