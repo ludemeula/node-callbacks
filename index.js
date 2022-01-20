@@ -43,15 +43,22 @@ main()
 async function main() {
 
   try {
+    console.time('tempo-execucao')
+
     const usuario = await obterUsuario()
-    const telefone = await obterTelefone(usuario.id)
-    const endereco = await obterEnderecoAsync(usuario.id)
+    // const telefone = await obterTelefone(usuario.id)
+    // const endereco = await obterEnderecoAsync(usuario.id)
+    const resultado = await Promise.all([obterTelefone(usuario.id), obterEnderecoAsync(usuario.id)])
+    const telefone = resultado[0]
+    const endereco = resultado[1]
 
     console.log(`
       Nome: ${usuario.nome}
       Telefone: ${telefone.numero}
       Endereço: ${endereco.rua}
     `)
+
+    console.timeEnd('tempo-execucao')
   } catch (error) {
     console.log('deu erro aqui', error)
   }
