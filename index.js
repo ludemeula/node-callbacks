@@ -63,38 +63,3 @@ async function main() {
     console.log('deu erro aqui', error)
   }
 }
-
-
-
-
-// const usuarioPromise = obterUsuario()
-// // manipular o sucesso .then
-// // manipular erros .catch
-// usuarioPromise
-//   .then(function(usuario) {
-//     return obterTelefone(usuario.id).then(function resolverTelefone(result) {
-//       return {
-//         usuario: {id: usuario.id, nome: usuario.nome},
-//         telefone: result
-//       }
-//     })
-//   })
-//   .then(function(resultado) {
-//     const endereco = obterEnderecoAsync(resultado.usuario.id)
-//     return endereco.then(function resolverEndereco(result) {
-//       return {
-//         usuario: resultado.usuario,
-//         telefone: resultado.telefone,
-//         endereco: result
-//       }
-//     })
-//   })
-//   .then(function(resultado) {
-//     console.log(`
-//       Nome: ${resultado.usuario.nome}
-//       Telefone: ${resultado.telefone.numero}
-//       Endereço: ${resultado.endereco.rua}
-//     `)
-//   }).catch(function(error) {
-//     console.log('Deu erro', error)
-//   })
